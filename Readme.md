@@ -1,6 +1,6 @@
-# (Oct 2025) Latex source code of my slides
+# About the Latex source code of my slides
 
-If you are a professor preparing a course and would like to use any content from my slides, feel free to reach out by email. I can share the source code with you. The slides were created using Latex/Beamer.
+If you are a professor and preparing a course and would like to use any content from my slides, feel free to reach out by email. I can share the source code with you. The slides were created using Latex/Beamer.
 
 Regarding reader feedback and questions in the discussion section, please note that due to a high volume of commitments, there may be significant delays in my response. Your understanding would be greatly appreciated.
 
