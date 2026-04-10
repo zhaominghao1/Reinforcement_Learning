@@ -1,0 +1,131 @@
+% Reinforcement learning notes — style inspired by typed lecture notes (title block, headers, § numbering)
+\documentclass[11pt, letterpaper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{bm}
+
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{etoolbox}
+\usepackage{enumitem}
+\setlist[itemize]{leftmargin=*}
+\setlist[enumerate]{leftmargin=*}
+
+\usepackage[en-GB]{datetime2}
+\usepackage[hidelinks]{hyperref}
+\usepackage[nameinlink, capitalize]{cleveref}
+
+% --- Metadata (edit for each term / draft) ---
+\newcommand{\coursetitle}{Reinforcement Learning Notes}
+\newcommand{\termseason}{Spring 2026}
+% Set at compile time (UK-style day month year via datetime2)
+\newcommand{\lastupdated}{\today}
+\newcommand{\instructor}{Dr. Shiyu Zhao}
+\newcommand{\institution}{University of California, San Diego}
+\newcommand{\contactnote}{} % e.g. If you find mistakes, email \texttt{...}
+
+\author{Minghao Zhao}
+\title{\coursetitle}
+
+% --- §-style section numbers (like ``§1 Lecture 1 Notes'') ---
+\titleformat{\section}{\normalfont\Large\bfseries}{\S\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}{\S\thesubsection}{1em}{}
+
+% --- Run-in theorem-like blocks (bold label + body, minimal extra vertical space) ---
+\newtheoremstyle{runin}
+  {\topsep}{0.5\topsep}{\itshape}{0pt}{\bfseries}{.}{0.5em}{}
+\theoremstyle{runin}
+\newtheorem*{definition}{Definition}
+\newtheorem*{fact}{Fact}
+\newtheorem*{notation}{Notation}
+\newtheorem*{exampleblock}{Examples}
+
+\newtheoremstyle{runinplain}
+  {\topsep}{0.5\topsep}{\itshape}{0pt}{\bfseries}{.}{0.5em}{}
+\theoremstyle{runinplain}
+\newtheorem{theorem}{Theorem}[section]
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+% --- Headers / footers ---
+\makeatletter
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small \@author\ — \termseason}
+\fancyhead[R]{\small Updated on: \lastupdated\quad \coursetitle}
+\fancyfoot[C]{\small -- \thepage{} of \pageref*{LastPage} --}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+% First page(s) with \pagestyle{plain}: footer only (matches many note PDFs)
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \fancyfoot[C]{\small -- \thepage{} of \pageref*{LastPage} --}
+  \renewcommand{\headrulewidth}{0pt}%
+}
+\makeatother
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\ind}{\mathbf{1}}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+
+\begin{document}
+
+% Avoid duplicate PDF page-1 anchor (title page + first ToC page)
+\hypersetup{pageanchor=false}
+\makeatletter
+\begin{titlepage}
+  \centering
+  \vspace*{2cm}
+  {\LARGE\bfseries \coursetitle \par}
+  \vspace{1.5em}
+  {\large \@author \par}
+  \vspace{0.75em}
+  {\large \termseason \par}
+  \vspace{2em}
+  {\normalsize Updated on: \lastupdated \par}
+  \vspace{1.5em}
+  \ifdefempty{\instructor}{}{{\normalsize Instructor: \instructor \par}}
+  \ifdefempty{\institution}{}{{\normalsize Institution: \institution \par}}
+  \ifdefempty{\contactnote}{}{{\vspace{1.5em}\normalsize \contactnote \par}}
+  \vfill
+\end{titlepage}
+\makeatother
+\hypersetup{pageanchor=true}
+
+\tableofcontents
+\newpage
+
+\section{Basic Concepts}
+\subsection{State value}
+
+% \begin{definition}
+% An order on a set $S$, typically denoted $<$, is a binary relation satisfying \ldots
+% \end{definition}
+
+% \begin{notation}
+% We write $x > y$ to mean $y < x$.
+% \end{notation}
+
+% \begin{theorem}
+% If assumptions hold, then the conclusion follows.
+% \end{theorem}
+
+% \begin{proof}
+% Standard argument.
+% \end{proof}
+
+% \begin{fact}
+% A short standalone fact you want highlighted.
+% \end{fact}
+
+\end{document}
