@@ -37,6 +37,7 @@
 % --- §-style section numbers (like ``§1 Lecture 1 Notes'') ---
 \titleformat{\section}{\normalfont\Large\bfseries}{\S\thesection}{1em}{}
 \titleformat{\subsection}{\normalfont\large\bfseries}{\S\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalfont\normalsize\bfseries}{\S\thesubsubsection}{1em}{}
 
 % --- Run-in theorem-like blocks (bold label + body, minimal extra vertical space) ---
 \newtheoremstyle{runin}
@@ -51,6 +52,8 @@
   {\topsep}{0.5\topsep}{\itshape}{0pt}{\bfseries}{.}{0.5em}{}
 \theoremstyle{runinplain}
 \newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
 
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
@@ -105,28 +108,550 @@
 \tableofcontents
 \newpage
 
+% ============================================================
 \section{Basic Concepts}
-This part introduces the basic concepts of reinforcement learning.
-\subsection{State value}
+% ============================================================
 
-% \begin{definition}
-% An order on a set $S$, typically denoted $<$, is a binary relation satisfying \ldots
-% \end{definition}
+This chapter introduces the fundamental building blocks of reinforcement learning (RL).
+The goal of RL is to find the \emph{most optimal policy} for an agent interacting with
+an environment. The key framework used is the \textbf{Markov Decision Process (MDP)}.
 
-% \begin{notation}
-% We write $x > y$ to mean $y < x$.
-% \end{notation}
+\subsection{State and Action}
 
-% \begin{theorem}
-% If assumptions hold, then the conclusion follows.
-% \end{theorem}
+\begin{definition}
+A \textbf{state} $s$ describes the current status of the agent with respect to the
+environment.
+The set of all possible states is called the \textbf{state space}, denoted $\mathcal{S}$.
+\end{definition}
 
-% \begin{proof}
-% Standard argument.
-% \end{proof}
+\begin{definition}
+An \textbf{action} $a$ is a choice available to the agent at a given state.
+The set of all possible actions is called the \textbf{action space}, denoted $\mathcal{A}$.
+Different states may have different action spaces, written $\mathcal{A}(s)$.
+\end{definition}
 
-% \begin{fact}
-% A short standalone fact you want highlighted.
-% \end{fact}
+\begin{exampleblock}
+In a $3\times3$ grid-world, there are nine states $s_1,\ldots,s_9$ and five actions
+$a_1$ (up), $a_2$ (right), $a_3$ (down), $a_4$ (left), $a_5$ (stay).
+Some cells are forbidden (negative reward) and one is the target (positive reward).
+\end{exampleblock}
+
+\subsection{State Transition}
+
+When an agent takes action $a$ in state $s$, it may move to a new state $s'$.
+This is called a \textbf{state transition}.
+
+\begin{definition}
+The \textbf{state transition probability} $p(s'\mid s,a)$ is the probability that
+the agent moves to state $s'$ after taking action $a$ in state $s$.  It satisfies
+\[
+  \sum_{s' \in \mathcal{S}} p(s'\mid s,a) = 1 \quad \forall\,(s,a).
+\]
+\end{definition}
+
+For a deterministic transition, $p(s'\mid s,a) = 1$ for exactly one $s'$ and $0$
+otherwise.  In general, transitions can be stochastic (e.g.\ due to wind gusts).
+
+\begin{remark}
+When the agent attempts to move beyond the grid boundary, it is bounced back to the
+same state.  Forbidden cells are treated as accessible but with a penalty reward.
+\end{remark}
+
+\subsection{Policy}
+
+\begin{definition}
+A \textbf{policy} $\pi$ tells the agent which action to take at every state.
+Formally, $\pi(a\mid s)$ is the probability of taking action $a$ in state $s$,
+satisfying $\sum_{a\in\mathcal{A}(s)}\pi(a\mid s)=1$ for all $s$.
+\end{definition}
+
+Policies can be:
+\begin{itemize}
+  \item \textbf{Deterministic}: $\pi(a^*\mid s)=1$ for a single action $a^*$ at each state.
+  \item \textbf{Stochastic}: positive probability is assigned to multiple actions.
+\end{itemize}
+
+\subsection{Reward}
+
+\begin{definition}
+A \textbf{reward} $R_{t+1}$ is a scalar signal received by the agent after taking
+action $A_t$ in state $S_t$ and transitioning to state $S_{t+1}$.
+The reward probability is $p(r\mid s,a)$, satisfying $\sum_{r}p(r\mid s,a)=1$.
+\end{definition}
+
+Rewards encode the goal:
+\begin{itemize}
+  \item Positive reward encourages the action; negative reward discourages it.
+  \item Only \emph{relative} reward values matter---adding a constant to all rewards
+        does not change the optimal policy.
+  \item A typical grid-world setting: $r_{\text{boundary}}=-1$, $r_{\text{forbidden}}=-1$,
+        $r_{\text{target}}=+1$, $r_{\text{other}}=0$.
+\end{itemize}
+
+\subsection{Trajectories, Returns, and Episodes}
+
+Starting from state $S_t = s$ and following policy $\pi$, the agent generates a
+\textbf{trajectory}:
+\[
+  S_t \xrightarrow{A_t} S_{t+1},R_{t+1} \xrightarrow{A_{t+1}} S_{t+2},R_{t+2} \xrightarrow{A_{t+2}} \cdots
+\]
+
+\begin{definition}
+The \textbf{discounted return} $G_t$ starting at time $t$ is
+\[
+  G_t = R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \cdots = \sum_{k=0}^{\infty} \gamma^k R_{t+k+1},
+\]
+where $\gamma \in (0,1)$ is the \textbf{discount rate}.
+\end{definition}
+
+The discount rate serves two purposes:
+\begin{enumerate}
+  \item Ensures convergence of infinite-horizon sums.
+  \item Controls myopia: $\gamma \to 0$ emphasises near-future rewards (short-sighted);
+        $\gamma \to 1$ emphasises far-future rewards (far-sighted).
+\end{enumerate}
+
+A useful recursive relation (bootstrapping identity):
+\[
+  G_t = R_{t+1} + \gamma G_{t+1}.
+\]
+
+\begin{definition}
+An \textbf{episode} is a trajectory that terminates at a terminal state.
+Tasks with episodes are \textbf{episodic tasks}; tasks with no terminal state are
+\textbf{continuing tasks}.
+\end{definition}
+
+\subsection{Markov Decision Processes}
+
+All concepts above are unified in the MDP framework.
+
+\begin{definition}
+A \textbf{Markov Decision Process (MDP)} is a tuple
+$(\mathcal{S},\mathcal{A},p(s'\mid s,a),p(r\mid s,a),\gamma)$ equipped with the
+\textbf{Markov property}:
+\[
+  p(s_{t+1}\mid s_t,a_t,s_{t-1},a_{t-1},\ldots) = p(s_{t+1}\mid s_t,a_t).
+\]
+The next state and reward depend only on the current state and action, not the
+history.
+\end{definition}
+
+\begin{remark}
+Once a policy is fixed in an MDP, it degenerates into a \textbf{Markov process (Markov chain)}.
+\end{remark}
+
+% ============================================================
+\section{State Values and Bellman Equation}
+% ============================================================
+
+\subsection{State Value}
+
+Because $G_t$ is a random variable (both policy and model may be stochastic),
+we use its expected value to evaluate a policy.
+
+\begin{definition}
+The \textbf{state-value function} (or \textbf{state value}) of policy $\pi$ is
+\[
+  v_\pi(s) = \E[G_t \mid S_t = s], \quad s \in \mathcal{S}.
+\]
+\end{definition}
+
+\begin{itemize}
+  \item $v_\pi(s)$ depends on $s$ (conditional expectation) and on $\pi$ (trajectories are generated under $\pi$).
+  \item $v_\pi(s)$ does \emph{not} depend on $t$ for stationary models.
+  \item A policy $\pi_1$ is \textbf{better} than $\pi_2$ if $v_{\pi_1}(s) \ge v_{\pi_2}(s)$ for all $s$.
+\end{itemize}
+
+\subsection{Bellman Equation}
+
+Using the bootstrapping identity $G_t = R_{t+1} + \gamma G_{t+1}$:
+\begin{align*}
+  v_\pi(s) &= \E[G_t \mid S_t = s] \\
+           &= \E[R_{t+1} + \gamma G_{t+1} \mid S_t = s] \\
+           &= \E[R_{t+1}\mid S_t=s] + \gamma\,\E[G_{t+1}\mid S_t=s].
+\end{align*}
+
+Expanding each term (using the law of total expectation and the Markov property):
+\[
+  \E[R_{t+1}\mid S_t=s]
+    = \sum_{a}\pi(a\mid s)\sum_{r}p(r\mid s,a)\,r,
+\]
+\[
+  \E[G_{t+1}\mid S_t=s]
+    = \sum_{s'}v_\pi(s')\sum_{a}\pi(a\mid s)\,p(s'\mid s,a).
+\]
+
+Combining:
+
+\begin{definition}[Bellman Equation]
+\[
+  \boxed{v_\pi(s) = \sum_{a}\pi(a\mid s)\!\left[\sum_{r}p(r\mid s,a)\,r
+    + \gamma\sum_{s'}p(s'\mid s,a)\,v_\pi(s')\right]}, \quad \forall\,s \in \mathcal{S}.
+\]
+\end{definition}
+
+This is a \emph{linear} system of $|\mathcal{S}|$ equations in $|\mathcal{S}|$ unknowns.
+Solving it for a given $\pi$ is called \textbf{policy evaluation}.
+
+\subsection{Matrix-Vector Form}
+
+Collecting states $s_1,\ldots,s_n$ into vectors and matrices:
+\[
+  \mathbf{v}_\pi = \begin{pmatrix}v_\pi(s_1)\\\vdots\\v_\pi(s_n)\end{pmatrix}, \quad
+  [\mathbf{r}_\pi]_s = \sum_a\pi(a\mid s)\sum_r p(r\mid s,a)\,r,
+\]
+\[
+  [P_\pi]_{s,s'} = \sum_a\pi(a\mid s)\,p(s'\mid s,a).
+\]
+
+The Bellman equation becomes:
+\[
+  \mathbf{v}_\pi = \mathbf{r}_\pi + \gamma P_\pi \mathbf{v}_\pi.
+\]
+
+\subsection{Solving the Bellman Equation}
+
+\textbf{Method 1 (closed-form):}
+\[
+  \mathbf{v}_\pi = (I - \gamma P_\pi)^{-1}\mathbf{r}_\pi.
+\]
+The matrix $I - \gamma P_\pi$ is always invertible because the eigenvalues of
+$\gamma P_\pi$ all have magnitude $\le \gamma < 1$.
+
+\textbf{Method 2 (iterative):} Starting from any initial guess $\mathbf{v}^{(0)}$,
+iterate:
+\[
+  \mathbf{v}^{(j+1)} = \mathbf{r}_\pi + \gamma P_\pi \mathbf{v}^{(j)}, \quad j=0,1,2,\ldots
+\]
+This converges to the unique solution $\mathbf{v}_\pi$ because $f(\mathbf{v})=\mathbf{r}_\pi+\gamma P_\pi\mathbf{v}$
+is a contraction mapping with constant $\gamma$.
+
+\subsection{Action Value}
+
+\begin{definition}
+The \textbf{action-value function} (or \textbf{action value / Q-value}) is
+\[
+  q_\pi(s,a) = \E[G_t \mid S_t=s,\, A_t=a].
+\]
+\end{definition}
+
+\textbf{Relationship between state values and action values:}
+
+\begin{enumerate}
+  \item A state value is the $\pi$-weighted average of action values:
+        \[
+          v_\pi(s) = \sum_{a}\pi(a\mid s)\,q_\pi(s,a).
+        \]
+  \item An action value can be expressed in terms of next-state values:
+        \[
+          q_\pi(s,a) = \sum_{r}p(r\mid s,a)\,r + \gamma\sum_{s'}p(s'\mid s,a)\,v_\pi(s').
+        \]
+\end{enumerate}
+
+\begin{remark}
+Even if policy $\pi$ never selects action $a$ at state $s$, the action value
+$q_\pi(s,a)$ is still well-defined: it measures the return obtained by taking
+$a$ once and then following $\pi$ thereafter.  This is crucial for policy improvement.
+\end{remark}
+
+% ============================================================
+\section{Optimal State Values and Bellman Optimality Equation}
+% ============================================================
+
+\subsection{Optimal Policies and Optimal State Values}
+
+\begin{definition}
+A policy $\pi^*$ is \textbf{optimal} if $v_{\pi^*}(s) \ge v_\pi(s)$ for all
+$s \in \mathcal{S}$ and for every other policy $\pi$.
+The corresponding state values $v^*(s) = v_{\pi^*}(s)$ are called \textbf{optimal
+state values}.
+\end{definition}
+
+Key facts (proven in the textbook):
+\begin{itemize}
+  \item An optimal policy \emph{always exists} (for finite MDPs).
+  \item It may not be unique, but all optimal policies share the \emph{same} optimal
+        state values $v^*$.
+  \item There always exists a \emph{deterministic} optimal policy.
+\end{itemize}
+
+\subsection{Bellman Optimality Equation}
+
+The \textbf{Bellman Optimality Equation (BOE)} is obtained by replacing the
+policy-weighted sum with a maximisation:
+\[
+  \boxed{v(s) = \max_{\pi(s)} \sum_{a}\pi(a\mid s)\,q(s,a)
+       = \max_{a\in\mathcal{A}(s)} q(s,a)}, \quad \forall\,s,
+\]
+where
+\[
+  q(s,a) = \sum_{r}p(r\mid s,a)\,r + \gamma\sum_{s'}p(s'\mid s,a)\,v(s').
+\]
+
+Here $v(s)$ is the \emph{unknown} (to be solved).  The maximisation is achieved by the
+greedy deterministic policy:
+\[
+  \pi^*(a\mid s) = \begin{cases}1, & a = a^*(s) = \arg\max_{a}\,q(s,a),\\0, & \text{otherwise.}\end{cases}
+\]
+
+\textbf{Matrix-vector form.} Define $f(\mathbf{v}) = \max_{\pi\in\Pi}(\mathbf{r}_\pi + \gamma P_\pi \mathbf{v})$,
+where the max is taken element-wise.  Then the BOE reads:
+\[
+  \mathbf{v} = f(\mathbf{v}).
+\]
+
+\subsection{Contraction Mapping Theorem}
+
+\begin{definition}
+A function $f:\R^d\to\R^d$ is a \textbf{contraction mapping} if there exists
+$\gamma\in(0,1)$ such that
+\[
+  \norm{f(\mathbf{x}_1)-f(\mathbf{x}_2)} \le \gamma\norm{\mathbf{x}_1-\mathbf{x}_2}
+  \quad \forall\,\mathbf{x}_1,\mathbf{x}_2\in\R^d.
+\]
+A point $\mathbf{x}^*$ with $f(\mathbf{x}^*)=\mathbf{x}^*$ is called a \textbf{fixed point}.
+\end{definition}
+
+\begin{theorem}[Contraction Mapping / Banach Fixed-Point Theorem]
+If $f$ is a contraction mapping, then:
+\begin{enumerate}
+  \item \textbf{Existence}: A fixed point $\mathbf{x}^*$ exists.
+  \item \textbf{Uniqueness}: The fixed point is unique.
+  \item \textbf{Algorithm}: Starting from any $\mathbf{x}_0$, the iterates
+        $\mathbf{x}_{k+1} = f(\mathbf{x}_k)$ converge to $\mathbf{x}^*$ exponentially fast.
+\end{enumerate}
+\end{theorem}
+
+It can be shown that $f(\mathbf{v}) = \max_\pi(\mathbf{r}_\pi + \gamma P_\pi\mathbf{v})$ is a
+contraction mapping (with respect to the $\ell^\infty$ norm) with constant $\gamma$.
+Therefore the BOE has a unique solution $v^*$, and the iterative algorithm
+$\mathbf{v}_{k+1} = f(\mathbf{v}_k)$ converges to $v^*$ from any starting point.
+
+\begin{remark}[Optimal action value]
+The optimal action value is defined as
+\[
+  q^*(s,a) = \sum_{r}p(r\mid s,a)\,r + \gamma\sum_{s'}p(s'\mid s,a)\,v^*(s').
+\]
+Then $v^*(s) = \max_a q^*(s,a)$ and the optimal policy satisfies
+$\pi^*(a\mid s) = 1$ iff $a = \arg\max_a q^*(s,a)$.
+\end{remark}
+
+% ============================================================
+\section{Value Iteration and Policy Iteration}
+% ============================================================
+
+The algorithms in this chapter are \textbf{model-based} (they require the transition
+and reward probabilities) and fall under the umbrella of \emph{dynamic programming}.
+
+\subsection{Value Iteration}
+
+Value iteration directly applies the contraction mapping iteration to the BOE.
+
+\textbf{Algorithm.} Starting from any $\mathbf{v}_0$, repeat for $k = 0,1,2,\ldots$:
+
+\begin{enumerate}
+  \item \textbf{Policy update} --- compute greedy action values and policy:
+        \[
+          q_k(s,a) = \sum_r p(r\mid s,a)\,r + \gamma\sum_{s'}p(s'\mid s,a)\,v_k(s'),
+        \]
+        \[
+          a_k^*(s) = \arg\max_a q_k(s,a), \qquad
+          \pi_{k+1}(a\mid s) = \begin{cases}1 & a=a_k^*(s)\\0 & \text{else}\end{cases}.
+        \]
+  \item \textbf{Value update}:
+        \[
+          v_{k+1}(s) = \max_a q_k(s,a) = q_k(s,a_k^*(s)), \quad \forall s.
+        \]
+\end{enumerate}
+
+Convergence is guaranteed by the contraction mapping theorem: $v_k \to v^*$ and
+$\pi_k \to \pi^*$.
+
+\begin{remark}
+The intermediate values $v_k$ are \emph{not} state values (they do not satisfy the
+Bellman equation of any policy in general); they are numerical approximations
+converging to $v^*$.
+\end{remark}
+
+\subsection{Policy Iteration}
+
+Policy iteration alternates between two steps, each starting from a policy $\pi_k$.
+
+\subsubsection{Step 1: Policy Evaluation}
+
+Solve the Bellman equation for $v_{\pi_k}$:
+\[
+  v_{\pi_k} = r_{\pi_k} + \gamma P_{\pi_k} v_{\pi_k}.
+\]
+This is done by the iterative algorithm (initialised at any $v^{(0)}$):
+\[
+  v^{(j+1)}(s) = \sum_a \pi_k(a\mid s)\!\left[\sum_r p(r\mid s,a)\,r
+    + \gamma\sum_{s'}p(s'\mid s,a)\,v^{(j)}(s')\right],
+\]
+until convergence (i.e.\ $\norm{v^{(j+1)}-v^{(j)}} < \varepsilon$).
+
+\subsubsection{Step 2: Policy Improvement}
+
+Given $v_{\pi_k}$, compute action values and update the policy greedily:
+\[
+  q_{\pi_k}(s,a) = \sum_r p(r\mid s,a)\,r + \gamma\sum_{s'}p(s'\mid s,a)\,v_{\pi_k}(s'),
+\]
+\[
+  \pi_{k+1}(a\mid s) = \begin{cases}1 & a = \arg\max_{a'} q_{\pi_k}(s,a')\\
+                                     0 & \text{otherwise}\end{cases}.
+\]
+
+\begin{lemma}[Policy Improvement]
+The improved policy satisfies $v_{\pi_{k+1}} \ge v_{\pi_k}$ (element-wise).
+\end{lemma}
+
+\begin{theorem}[Convergence of Policy Iteration]
+The state-value sequence $\{v_{\pi_k}\}$ generated by policy iteration converges to
+the optimal state value $v^*$, and the corresponding policies converge to an optimal
+policy.
+\end{theorem}
+
+\begin{remark}
+The intermediate values in policy iteration \emph{are} state values: each $v_{\pi_k}$
+satisfies the Bellman equation of $\pi_k$.
+\end{remark}
+
+\subsection{Truncated Policy Iteration}
+
+Policy iteration embeds an infinite iterative process inside the policy evaluation
+step.  In practice, we run only a \emph{finite} number $j_{\text{truncate}}$ of
+evaluation iterations, yielding \textbf{truncated policy iteration}.
+
+\textbf{Relationship to other algorithms:}
+\begin{itemize}
+  \item $j_{\text{truncate}} = 1$: equivalent to \textbf{value iteration}.
+  \item $j_{\text{truncate}} = \infty$: equivalent to \textbf{policy iteration}.
+  \item $1 < j_{\text{truncate}} < \infty$: strictly in between, converging faster
+        than value iteration but more computationally light than full policy iteration.
+\end{itemize}
+
+\textbf{Pseudocode.} Initialise $\pi_0$ and $v_0$. For $k=0,1,2,\ldots$:
+
+\begin{enumerate}
+  \item \textit{Policy evaluation (truncated):} set $v_k^{(0)} = v_{k-1}$ and iterate
+        \[
+          v_k^{(j+1)}(s) = \sum_a \pi_k(a\mid s)\!\left[\sum_r p(r\mid s,a)\,r
+            + \gamma\sum_{s'}p(s'\mid s,a)\,v_k^{(j)}(s')\right]
+        \]
+        for $j = 0,\ldots,j_{\text{truncate}}-1$.  Set $v_k = v_k^{(j_{\text{truncate}})}$.
+
+  \item \textit{Policy improvement:} for every $s$,
+        \[
+          \pi_{k+1}(a\mid s) = \begin{cases}1 & a=\arg\max_{a'}q_k(s,a')\\0&\text{else}\end{cases},
+        \]
+        where $q_k(s,a)=\sum_r p(r\mid s,a)\,r+\gamma\sum_{s'}p(s'\mid s,a)\,v_k(s')$.
+\end{enumerate}
+
+\begin{remark}
+The general guideline is to run a \emph{small but greater than one} number of iterations
+in the policy evaluation step.  A few iterations already speed up convergence
+significantly over value iteration.
+\end{remark}
+
+\textbf{Generalized Policy Iteration.} The idea of iterating between value and policy
+updates is called \textbf{generalized policy iteration (GPI)} and underpins virtually
+all RL algorithms.
+
+% ============================================================
+\section{Monte Carlo Methods}
+% ============================================================
+
+The algorithms in the previous chapter required the system model
+$\{p(r\mid s,a),\,p(s'\mid s,a)\}$.  Monte Carlo (MC) methods are the first
+\textbf{model-free} algorithms: they learn from experience samples (episodes)
+rather than a known model.
+
+\textbf{Philosophy:} if no model is available, collect data; estimate expectations
+from sample averages.
+
+\subsection{Mean Estimation and the Law of Large Numbers}
+
+State and action values are \emph{expected returns}---i.e.\ means of random variables.
+Estimating them from samples is a \textbf{mean estimation} problem.
+
+\begin{fact}[Law of Large Numbers]
+Let $\{x_i\}_{i=1}^n$ be i.i.d.\ samples of random variable $X$.
+Define $\bar{x} = \frac{1}{n}\sum_{i=1}^n x_i$.  Then:
+\[
+  \E[\bar{x}] = \E[X], \qquad \mathrm{Var}[\bar{x}] = \frac{\mathrm{Var}[X]}{n} \xrightarrow{n\to\infty} 0.
+\]
+That is, $\bar{x}$ is an unbiased estimator of $\E[X]$, and as $n\to\infty$,
+$\bar{x}\to\E[X]$ almost surely.
+\end{fact}
+
+\begin{remark}
+Samples must be \textbf{independent and identically distributed (i.i.d.)} for the law
+of large numbers to hold.
+\end{remark}
+
+\subsection{Converting Policy Iteration to Model-Free: The MC Idea}
+
+In policy iteration, the model is used in two places:
+\begin{enumerate}
+  \item \textit{Policy evaluation}: solve $v_{\pi_k} = r_{\pi_k} + \gamma P_{\pi_k} v_{\pi_k}$ (requires model).
+  \item \textit{Policy improvement}: compute
+        $q_{\pi_k}(s,a) = \sum_r p(r\!\mid\!s,a)\,r + \gamma\sum_{s'}p(s'\!\mid\!s,a)\,v_{\pi_k}(s')$
+        (requires model).
+\end{enumerate}
+
+The key insight is that action values can be estimated \emph{directly} from samples
+without a model:
+\[
+  q_{\pi_k}(s,a) = \E[G_t \mid S_t=s,\,A_t=a]
+  \approx \frac{1}{n}\sum_{i=1}^n g_{\pi_k}^{(i)}(s,a),
+\]
+where $g_{\pi_k}^{(i)}(s,a)$ is the discounted return of the $i$-th episode starting
+from $(s,a)$ and following $\pi_k$ thereafter.  As $n\to\infty$, this approximation
+becomes exact.
+
+\begin{remark}
+Model-free algorithms must estimate \textbf{action values} directly (not state values),
+because converting state values to action values via (5.1) would still require the model.
+\end{remark}
+
+\subsection{MC Basic Algorithm}
+
+\textbf{MC Basic} is the simplest MC algorithm: it is exactly the policy iteration
+algorithm with the model-based policy evaluation replaced by the MC sample-average
+estimate of action values.
+
+\textbf{Algorithm (MC Basic).} Initialise policy $\pi_0$.
+For $k = 0,1,2,\ldots$:
+
+\begin{enumerate}
+  \item \textbf{Policy evaluation (MC):} for every $(s,a)\in\mathcal{S}\times\mathcal{A}$,
+        collect $n$ episodes starting from $(s,a)$ and following $\pi_k$.
+        Approximate:
+        \[
+          q_{\pi_k}(s,a) \approx q_k(s,a) = \frac{1}{n}\sum_{i=1}^n g_{\pi_k}^{(i)}(s,a).
+        \]
+  \item \textbf{Policy improvement:} update greedily,
+        \[
+          a_k^*(s) = \arg\max_a\,q_k(s,a), \qquad
+          \pi_{k+1}(a\mid s) = \begin{cases}1 & a=a_k^*(s)\\0 & \text{else}\end{cases}.
+        \]
+\end{enumerate}
+
+\textbf{Convergence.} When $n$ is sufficiently large, $q_k(s,a)\approx q_{\pi_k}(s,a)$
+accurately, and MC Basic has the same convergence guarantees as policy iteration.
+In practice, even with a finite $n$, the algorithm typically converges---analogous to
+truncated policy iteration, which also uses approximate action values.
+
+\textbf{Limitations.} MC Basic is too sample-inefficient for practical use:
+\begin{itemize}
+  \item It requires \emph{infinitely long} episodes to accurately approximate action
+        values when trajectories do not terminate quickly.
+  \item It collects a fresh batch of $n$ episodes for \emph{every} $(s,a)$ in every
+        iteration---a prohibitive number of samples.
+  \item Sparse rewards make value estimation difficult with short episodes.
+\end{itemize}
+Nevertheless, MC Basic is conceptually important as the foundation for more
+efficient MC algorithms (MC Exploring Starts and MC $\varepsilon$-Greedy).
 
 \end{document}
