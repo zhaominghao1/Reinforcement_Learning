@@ -576,13 +576,13 @@ State and action values are \emph{expected returns}---i.e.\ means of random vari
 Estimating them from samples is a \textbf{mean estimation} problem.
 
 \begin{fact}[Law of Large Numbers]
-Let $\{x_i\}_{i=1}^n$ be i.i.d.\ samples of random variable $X$.
-Define $\bar{x} = \frac{1}{n}\sum_{i=1}^n x_i$.  Then:
-\[
-  \E[\bar{x}] = \E[X], \qquad \mathrm{Var}[\bar{x}] = \frac{\mathrm{Var}[X]}{n} \xrightarrow{n\to\infty} 0.
-\]
-That is, $\bar{x}$ is an unbiased estimator of $\E[X]$, and as $n\to\infty$,
-$\bar{x}\to\E[X]$ almost surely.
+Let $\{x_i\}_{i=1}^n$ be i.i.d.\ samples of random variable $X$.\\
+Define $\bar{x} = \frac{1}{n}\displaystyle \sum_{i=1}^n x_i$. 
+Then: \begin{equation*}
+  \E[\bar{x}] = \E[X], \qquad \mathrm{Var}[\bar{x}] = \frac{\mathrm{Var}[X]}{n} \xrightarrow{n\to\infty} 0 
+\end{equation*}
+
+That is, $\bar{x}$ is an unbiased estimator of $\E[X]$, and as $n\to\infty$, $\bar{x}\to\E[X]$ almost surely.
 \end{fact}
 
 \begin{remark}
