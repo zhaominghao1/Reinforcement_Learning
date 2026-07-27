@@ -1,0 +1,498 @@
+[
+ {
+  "label": "Figure 1.1",
+  "file": "fig1_1.pdf",
+  "w": 371.3,
+  "h": 311.8,
+  "page": 1,
+  "caption": "Figure 1.1: Where we are in this book."
+ },
+ {
+  "label": "Figure 1.2",
+  "file": "fig1_2.pdf",
+  "w": 147.7,
+  "h": 147.7,
+  "page": 2,
+  "caption": "Figure 1.2: The grid world example is used throughout the book."
+ },
+ {
+  "label": "Figure 1.3",
+  "file": "fig1_3.pdf",
+  "w": 312.5,
+  "h": 161.2,
+  "page": 3,
+  "caption": "Figure 1.3: Illustrations of the state and action concepts. (a) There are nine states {s1, . . . , s9}. (b) Each state has \ufb01ve possible actions {a1, a2, a3, a4, a5}."
+ },
+ {
+  "label": "Table 1.1",
+  "file": "tab1_1.pdf",
+  "w": 402.2,
+  "h": 160.4,
+  "page": 4,
+  "caption": "Table 1.1: A tabular representation of the state transition process. Each cell indicates the next state to transition to after the agent takes an action at a state."
+ },
+ {
+  "label": "Figure 1.4",
+  "file": "fig1_4.pdf",
+  "w": 355.2,
+  "h": 279.0,
+  "page": 5,
+  "caption": "Figure 1.4: A policy represented by arrows and some trajectories obtained by starting from di\ufb00erent initial states."
+ },
+ {
+  "label": "Figure 1.5",
+  "file": "fig1_5.pdf",
+  "w": 144.8,
+  "h": 144.8,
+  "page": 6,
+  "caption": "Figure 1.5: A stochastic policy. In state s1, the agent may move rightward or downward with equal probabilities of 0.5."
+ },
+ {
+  "label": "Table 1.2",
+  "file": "tab1_2.pdf",
+  "w": 406.1,
+  "h": 160.4,
+  "page": 6,
+  "caption": "Table 1.2: A tabular representation of a policy. Each entry indicates the probability of taking an action at a state."
+ },
+ {
+  "label": "Table 1.3",
+  "file": "tab1_3.pdf",
+  "w": 433.7,
+  "h": 192.5,
+  "page": 8,
+  "caption": "Table 1.3: A tabular representation of the process of obtaining rewards. Here, the process is deterministic. Each cell indicates how much reward can be obtained after the agent takes an action at a given state."
+ },
+ {
+  "label": "Figure 1.6",
+  "file": "fig1_6.pdf",
+  "w": 307.2,
+  "h": 161.9,
+  "page": 8,
+  "caption": "Figure 1.6: Trajectories obtained by following two policies. The trajectories are indicated by red dashed lines."
+ },
+ {
+  "label": "Figure 1.7",
+  "file": "fig1_7.pdf",
+  "w": 277.1,
+  "h": 129.8,
+  "page": 12,
+  "caption": "Figure 1.7: Abstraction of the grid world example as a Markov process. Here, the circles represent states and the links with arrows represent state transitions."
+ },
+ {
+  "label": "Figure 10.1",
+  "file": "fig10_1.pdf",
+  "w": 371.3,
+  "h": 311.8,
+  "page": 1,
+  "caption": "Figure 10.1: Where we are in this book."
+ },
+ {
+  "label": "Figure 10.2",
+  "file": "fig10_2.pdf",
+  "w": 255.2,
+  "h": 207.2,
+  "page": 9,
+  "caption": "Figure 10.2: An example for demonstrating the importance sampling technique. Here, X \u2208{+1, \u22121} and p0(X = +1) = p0(X = \u22121) = 0.5. The samples are generated according to p1 where p1(X = +1) = 0.8 and p1(X = \u22121) = 0.2. The average of the samples converges to EX\u223cp1[X] = 0.6, but the weighted average calculated by the importance sampling technique in (10.10) converges to EX\u223cp0[X] = 0."
+ },
+ {
+  "label": "Figure 2.1",
+  "file": "fig2_1.pdf",
+  "w": 371.3,
+  "h": 311.8,
+  "page": 1,
+  "caption": "Figure 2.1: Where we are in this book."
+ },
+ {
+  "label": "Figure 2.2",
+  "file": "fig2_2.pdf",
+  "w": 370.2,
+  "h": 121.2,
+  "page": 2,
+  "caption": "Figure 2.2: Examples for demonstrating the importance of returns. The three examples have di\ufb00erent policies for s1."
+ },
+ {
+  "label": "Figure 2.3",
+  "file": "fig2_3.pdf",
+  "w": 121.2,
+  "h": 121.2,
+  "page": 4,
+  "caption": "Figure 2.3: An example for demonstrating how to calculate returns. There are no target or forbidden cells in this example."
+ },
+ {
+  "label": "Figure 2.4",
+  "file": "fig2_4.pdf",
+  "w": 142.6,
+  "h": 142.6,
+  "page": 9,
+  "caption": "Figure 2.4: An example for demonstrating the Bellman equation. The policy in this example is deter- ministic."
+ },
+ {
+  "label": "Figure 2.5",
+  "file": "fig2_5.pdf",
+  "w": 142.6,
+  "h": 142.6,
+  "page": 10,
+  "caption": "Figure 2.5: An example for demonstrating the Bellman equation. The policy in this example is stochastic."
+ },
+ {
+  "label": "Figure 2.6",
+  "file": "fig2_6.pdf",
+  "w": 142.6,
+  "h": 142.6,
+  "page": 13,
+  "caption": "Figure 2.6: An example for demonstrating the matrix-vector form of the Bellman equation."
+ },
+ {
+  "label": "Figure 2.7",
+  "file": "fig2_7.pdf",
+  "w": 429.2,
+  "h": 645.3,
+  "page": 15,
+  "caption": "Figure 2.7: Examples of policies and their corresponding state values."
+ },
+ {
+  "label": "Figure 2.8",
+  "file": "fig2_8.pdf",
+  "w": 142.6,
+  "h": 142.6,
+  "page": 17,
+  "caption": "Figure 2.8: An example for demonstrating the process of calculating action values."
+ },
+ {
+  "label": "Figure 3.1",
+  "file": "fig3_1.pdf",
+  "w": 371.3,
+  "h": 311.8,
+  "page": 1,
+  "caption": "Figure 3.1: Where we are in this book."
+ },
+ {
+  "label": "Figure 3.2",
+  "file": "fig3_2.pdf",
+  "w": 142.6,
+  "h": 142.6,
+  "page": 2,
+  "caption": "Figure 3.2: An example for demonstrating policy improvement."
+ },
+ {
+  "label": "Figure 3.3",
+  "file": "fig3_3.pdf",
+  "w": 291.9,
+  "h": 144.8,
+  "page": 14,
+  "caption": "Figure 3.3: Examples for demonstrating that optimal policies may not be unique. The two policies are di\ufb00erent but are both optimal."
+ },
+ {
+  "label": "Figure 3.4",
+  "file": "fig3_4.pdf",
+  "w": 433.1,
+  "h": 665.9,
+  "page": 16,
+  "caption": "Figure 3.4: The optimal policies and optimal state values given di\ufb00erent parameter values."
+ },
+ {
+  "label": "Figure 3.5",
+  "file": "fig3_5.pdf",
+  "w": 437.1,
+  "h": 123.8,
+  "page": 18,
+  "caption": "Figure 3.5: Examples illustrating that optimal policies do not take meaningless detours due to the discount rate."
+ },
+ {
+  "label": "Figure 4.1",
+  "file": "fig4_1.pdf",
+  "w": 371.3,
+  "h": 311.8,
+  "page": 1,
+  "caption": "Figure 4.1: Where we are in this book."
+ },
+ {
+  "label": "Figure 4.2",
+  "file": "fig4_2.pdf",
+  "w": 354.6,
+  "h": 121.2,
+  "page": 4,
+  "caption": "Figure 4.2: An example for demonstrating the implementation of the value iteration algorithm."
+ },
+ {
+  "label": "Figure 4.3",
+  "file": "fig4_3.pdf",
+  "w": 260.0,
+  "h": 86.3,
+  "page": 11,
+  "caption": "Figure 4.3: An example for illustrating the implementation of the policy iteration algorithm."
+ },
+ {
+  "label": "Figure 4.4",
+  "file": "fig4_4.pdf",
+  "w": 534.2,
+  "h": 605.0,
+  "page": 13,
+  "caption": "Figure 4.4: The evolution processes of the policies generated by the policy iteration algorithm."
+ },
+ {
+  "label": "Figure 4.5",
+  "file": "fig4_5.pdf",
+  "w": 266.8,
+  "h": 199.6,
+  "page": 17,
+  "caption": "Figure 4.5: An illustration of the relationships between the value iteration, policy iteration, and truncated policy iteration algorithms."
+ },
+ {
+  "label": "Figure 5.1",
+  "file": "fig5_1.pdf",
+  "w": 371.3,
+  "h": 311.8,
+  "page": 1,
+  "caption": "Figure 5.1: Where we are in this book."
+ },
+ {
+  "label": "Figure 5.2",
+  "file": "fig5_2.pdf",
+  "w": 279.4,
+  "h": 204.4,
+  "page": 3,
+  "caption": "Figure 5.2: An example for demonstrating the law of large numbers. Here, the samples are drawn from {+1, \u22121} following a uniform distribution. The average of the samples gradually converges to zero, which is the true expected value, as the number of samples increases."
+ },
+ {
+  "label": "Figure 5.3",
+  "file": "fig5_3.pdf",
+  "w": 144.3,
+  "h": 144.3,
+  "page": 7,
+  "caption": "Figure 5.3: An example for illustrating the MC Basic algorithm."
+ },
+ {
+  "label": "Figure 5.4",
+  "file": "fig5_4.pdf",
+  "w": 537.0,
+  "h": 629.4,
+  "page": 9,
+  "caption": "Figure 5.4: The policies and state values obtained by the MC Basic algorithm when given di\ufb00erent episode lengths. Only if the length of each episode is su\ufb03ciently long, can the state values be accurately estimated."
+ },
+ {
+  "label": "Figure 5.5",
+  "file": "fig5_5.pdf",
+  "w": 479.7,
+  "h": 172.2,
+  "page": 16,
+  "caption": "Figure 5.5: The evolution process of the MC \u03f5-Greedy algorithm based on single episodes."
+ },
+ {
+  "label": "Figure 5.6",
+  "file": "fig5_6.pdf",
+  "w": 349.0,
+  "h": 623.9,
+  "page": 17,
+  "caption": "Figure 5.6: The state values of some \u03f5-greedy policies. These \u03f5-greedy policies are consistent with each other in the sense that the actions with the greatest probabilities are the same. It can be seen that, when the value of \u03f5 increases, the state values of the \u03f5-greedy policies decrease and hence their optimality becomes worse."
+ },
+ {
+  "label": "Figure 5.7",
+  "file": "fig5_7.pdf",
+  "w": 349.0,
+  "h": 623.9,
+  "page": 18,
+  "caption": "Figure 5.7: The optimal \u03f5-greedy policies and their corresponding state values under di\ufb00erent values of \u03f5. Here, these \u03f5-greedy policies are optimal among all \u03f5-greedy ones (with the same value of \u03f5). It can be seen that, when the value of \u03f5 increases, the optimal \u03f5-greedy policies are no longer consistent with the optimal one as in (a)."
+ },
+ {
+  "label": "Figure 5.8",
+  "file": "fig5_8.pdf",
+  "w": 433.5,
+  "h": 658.0,
+  "page": 20,
+  "caption": "Figure 5.8: Exploration abilities of \u03f5-greedy policies with di\ufb00erent values of \u03f5."
+ },
+ {
+  "label": "Figure 6.1",
+  "file": "fig6_1.pdf",
+  "w": 371.3,
+  "h": 311.8,
+  "page": 1,
+  "caption": "Figure 6.1: Where we are in this book."
+ },
+ {
+  "label": "Figure 6.2",
+  "file": "fig6_2.pdf",
+  "w": 228.1,
+  "h": 90.6,
+  "page": 4,
+  "caption": "Figure 6.2: An illustration of the problem of solving g(w) = 0 from w and \u02dcg."
+ },
+ {
+  "label": "Figure 6.3",
+  "file": "fig6_3.pdf",
+  "w": 217.1,
+  "h": 166.9,
+  "page": 5,
+  "caption": "Figure 6.3: An illustrative example of the RM algorithm."
+ },
+ {
+  "label": "Figure 6.4",
+  "file": "fig6_4.pdf",
+  "w": 264.7,
+  "h": 202.6,
+  "page": 6,
+  "caption": "Figure 6.4: An example for illustrating the convergence of the RM algorithm."
+ },
+ {
+  "label": "Figure 6.5",
+  "file": "fig6_5.pdf",
+  "w": 433.1,
+  "h": 174.0,
+  "page": 18,
+  "caption": "Figure 6.5: An example for demonstrating stochastic and mini-batch gradient descent algorithms. The distribution of X \u2208R2 is uniform in the square area centered at the origin with a side length as 20. The mean is E[X] = 0. The mean estimation is based on 100 i.i.d. samples."
+ },
+ {
+  "label": "Figure 7.1",
+  "file": "fig7_1.pdf",
+  "w": 371.3,
+  "h": 311.8,
+  "page": 1,
+  "caption": "Figure 7.1: Where we are in this book."
+ },
+ {
+  "label": "Figure 7.2",
+  "file": "fig7_2.pdf",
+  "w": 411.4,
+  "h": 176.1,
+  "page": 12,
+  "caption": "Figure 7.2: An example for demonstrating Sarsa. All the episodes start from the top-left state and terminate when reaching the target state (the blue cell). The goal is to \ufb01nd an optimal path from the starting state to the target state. The reward settings are rtarget = 0, rforbidden = rboundary = \u221210, and rother = \u22121. The learning rate is \u03b1 = 0.1 and the value of \u03f5 is 0.1. The left \ufb01gure shows the \ufb01nal policy obtained by the algorithm. The right \ufb01gures show the total reward and length of every episode."
+ },
+ {
+  "label": "Figure 7.3",
+  "file": "fig7_3.pdf",
+  "w": 411.4,
+  "h": 177.1,
+  "page": 20,
+  "caption": "Figure 7.3: An example for demonstrating Q-learning. All the episodes start from the top-left state and terminate after reaching the target state. The aim is to \ufb01nd an optimal path from the starting state to the target state. The reward settings are rtarget = 0, rforbidden = rboundary = \u221210, and rother = \u22121. The learning rate is \u03b1 = 0.1 and the value of \u03f5 is 0.1. The left \ufb01gure shows the \ufb01nal policy obtained by the algorithm. The right \ufb01gure shows the total reward and length of every episode."
+ },
+ {
+  "label": "Figure 7.4",
+  "file": "fig7_4.pdf",
+  "w": 406.8,
+  "h": 650.9,
+  "page": 22,
+  "caption": "Figure 7.4: Examples for demonstrating o\ufb00-policy learning via Q-learning. The optimal policy and optimal state values are shown in (a) and (b), respectively. The behavior policy and the generated episode are shown in (c) and (d), respectively. The estimated policy and the estimation error evolution are shown in (e) and (f), respectively. The cases with di\ufb00erent initial values are shown in (g) and (h)."
+ },
+ {
+  "label": "Figure 7.5",
+  "file": "fig7_5.pdf",
+  "w": 510.8,
+  "h": 497.7,
+  "page": 23,
+  "caption": "Figure 7.5: The performance of Q-learning drops when the behavior policy is not exploratory. The \ufb01gures in the left column show the behavior policies. The \ufb01gures in the middle column show the generated episodes following the corresponding behavior policies. The episode in each example has 100,000 steps. The \ufb01gures in the right column show the evolution of the root-mean-square error of the estimated state values."
+ },
+ {
+  "label": "Figure 8.1",
+  "file": "fig8_1.pdf",
+  "w": 371.3,
+  "h": 311.8,
+  "page": 1,
+  "caption": "Figure 8.1: Where we are in this book."
+ },
+ {
+  "label": "Figure 8.2",
+  "file": "fig8_2.pdf",
+  "w": 279.5,
+  "h": 146.1,
+  "page": 2,
+  "caption": "Figure 8.2: An illustration of the function approximation method. The x-axis and y-axis correspond to s and \u02c6v(s), respectively."
+ },
+ {
+  "label": "Figure 8.3",
+  "file": "fig8_3.pdf",
+  "w": 149.2,
+  "h": 98.3,
+  "page": 3,
+  "caption": "Figure 8.3: An illustration of the process for retrieving the value of s when using the function approxi- mation method."
+ },
+ {
+  "label": "Figure 8.4",
+  "file": "fig8_4.pdf",
+  "w": 420.1,
+  "h": 226.9,
+  "page": 4,
+  "caption": "Figure 8.4: An illustration of how to update the value of a state."
+ },
+ {
+  "label": "Figure 8.5",
+  "file": "fig8_5.pdf",
+  "w": 381.3,
+  "h": 169.4,
+  "page": 10,
+  "caption": "Figure 8.5: Long-term behavior of an \u03f5-greedy policy with \u03f5 = 0.5. The asterisks in the right \ufb01gure represent the theoretical values of the elements of d\u03c0."
+ },
+ {
+  "label": "Figure 8.6",
+  "file": "fig8_6.pdf",
+  "w": 481.7,
+  "h": 161.7,
+  "page": 14,
+  "caption": "Figure 8.6: (a) The policy to be evaluated. (b) The true state values are represented as a table. (c) The true state values are represented as a 3D surface."
+ },
+ {
+  "label": "Figure 8.7",
+  "file": "fig8_7.pdf",
+  "w": 455.0,
+  "h": 249.6,
+  "page": 16,
+  "caption": "Figure 8.7: TD-Linear estimation results obtained with the polynomial features in (8.15), (8.16), and (8.17)."
+ },
+ {
+  "label": "Figure 8.8",
+  "file": "fig8_8.pdf",
+  "w": 455.0,
+  "h": 249.6,
+  "page": 17,
+  "caption": "Figure 8.8: TD-Linear estimation results obtained with the Fourier features in (8.18)."
+ },
+ {
+  "label": "Figure 8.9",
+  "file": "fig8_9.pdf",
+  "w": 372.8,
+  "h": 168.7,
+  "page": 30,
+  "caption": "Figure 8.9: Sarsa with linear function approximation. Here, \u03b3 = 0.9, \u03f5 = 0.1, rboundary = rforbidden = \u221210, rtarget = 1, and \u03b1 = 0.001."
+ },
+ {
+  "label": "Figure 8.10",
+  "file": "fig8_10.pdf",
+  "w": 372.8,
+  "h": 165.6,
+  "page": 31,
+  "caption": "Figure 8.10: Q-learning with linear function approximation. Here, \u03b3 = 0.9, \u03f5 = 0.1, rboundary = rforbidden = \u221210, rtarget = 1, and \u03b1 = 0.001."
+ },
+ {
+  "label": "Figure 8.11",
+  "file": "fig8_11.pdf",
+  "w": 495.9,
+  "h": 349.3,
+  "page": 35,
+  "caption": "Figure 8.11: Optimal policy learning via deep Q-learning. Here, \u03b3 = 0.9, rboundary = rforbidden = \u221210, and rtarget = 1. The batch size is 100."
+ },
+ {
+  "label": "Figure 8.12",
+  "file": "fig8_12.pdf",
+  "w": 535.7,
+  "h": 349.6,
+  "page": 36,
+  "caption": "Figure 8.12: Optimal policy learning via deep Q-learning. Here, \u03b3 = 0.9, rboundary = rforbidden = \u221210, and rtarget = 1. The batch size is 50."
+ },
+ {
+  "label": "Figure 9.1",
+  "file": "fig9_1.pdf",
+  "w": 371.3,
+  "h": 311.8,
+  "page": 1,
+  "caption": "Figure 9.1: Where we are in this book."
+ },
+ {
+  "label": "Figure 9.2",
+  "file": "fig9_2.pdf",
+  "w": 332.9,
+  "h": 115.4,
+  "page": 2,
+  "caption": "Figure 9.2: Function representations of policies. The functions may have di\ufb00erent structures."
+ }
+]
